@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CazaPromos — Restaurantes</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Arial, sans-serif; }
+  body { background:#121212; color:#eee; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .box { background:#1e1e1e; border-radius:12px; padding:25px; width:100%; max-width:400px; }
+  h1 { color:#0E9BA4; text-align:center; margin-bottom:5px; font-size:22px; }
+  p.sub { text-align:center; color:#aaa; margin-bottom:20px; font-size:14px; }
+  label { display:block; margin:10px 0 4px; font-size:14px; color:#0E9BA4; }
+  input, select { width:100%; padding:10px; border-radius:8px; border:1px solid #333; background:#121212; color:#eee; font-size:15px; }
+  .passwrap { position:relative; } .passwrap input { padding-right:48px; }
+  .ojito { position:absolute; right:6px; top:50%; transform:translateY(-50%); background:#eee; color:#121212; border:none; border-radius:6px; padding:5px 8px; cursor:pointer; }
+  button.grande { width:100%; margin-top:15px; padding:12px; border:none; border-radius:8px; background:#0E9BA4; color:#fff; font-weight:bold; font-size:16px; cursor:pointer; }
+  .swap { text-align:center; margin-top:15px; font-size:14px; color:#aaa; } .swap a { color:#0E9BA4; cursor:pointer; text-decoration:underline; }
+  #msg { margin-top:12px; text-align:center; font-size:14px; min-height:18px; } .ok{color:#4CAF50;} .err{color:#e57373;}
+  #mapaReg { height:200px; border-radius:10px; margin-top:10px; display:none; }
+  .opcional { color:#888; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🏪 CazaPromos Restaurantes</h1>
+  <p class="sub" id="sub">Entra a tu panel</p>
+  <div id="loginForm">
+    <label>Correo</label><input id="lemail" type="email" placeholder="tulocal@correo.com">
+    <label>Contraseña</label>
+    <div class="passwrap"><input id="lpass" type="password" placeholder="••••••••"><button class="ojito" id="ojo" type="button">👁</button></div>
+    <button class="grande" id="btnLogin">Entrar</button>
+  </div>
+  <div id="regForm" style="display:none">
+    <label>Nombre del local</label><input id="rname" placeholder="Ej: Piqueos Doña Pame">
+    <label>Correo</label><input id="remail" type="email" placeholder="tulocal@correo.com">
+    <label>WhatsApp</label>
+    <div style="display:flex;gap:6px">
+      <select id="rpais" style="width:110px"><option value="593">🇪 +593</option><option value="51">🇵 +51</option><option value="57">🇨🇴 +57</option><option value="54">🇦🇷 +54</option><option value="52">🇲 +52</option></select>
+      <input id="rwhats" placeholder="99 999 9999" inputmode="numeric">
+    </div>
+    <button type="button" id="btnCode" style="width:100%;margin-top:8px;padding:9px;border:none;border-radius:8px;background:#7C4DFF;color:#fff;font-weight:bold;cursor:pointer">📨 Enviar código a mi WhatsApp</button>
+    <div id="codeWrap" style="display:none"><label>Código de 6 dígitos</label><input id="rcode" inputmode="numeric" placeholder="123456" maxlength="6"></div>
+    <label>Ciudad</label><input id="rcity" placeholder="Escribe el nombre de tu ciudad">
+    <button type="button" id="btnUbi" style="width:100%;margin-top:10px;padding:10px;border:none;border-radius:8px;background:#128C7E;color:#fff;font-weight:bold;cursor:pointer">📍 Usar mi ubicación</button>
+    <p id="ubiMsg" style="color:#aaa;font-size:13px;margin-top:6px"></p>
+    <div id="mapaReg"></div>
+    <p style="color:#888;font-size:12px;margin-top:4px">Si el pin no está en tu local, arrástralo con el dedo.</p>
+    <input type="hidden" id="rlat"><input type="hidden" id="rlng"><input type="hidden" id="rsector">
+    <h3 style="color:#0E9BA4;margin-top:16px;font-size:15px">Verificación (opcional, insignia ✔)</h3>
+    <label>Cédula <span class="opcional">(opcional)</span></label><input id="rcedula" placeholder="0912345678">
+    <label>RUC <span class="opcional">(opcional)</span></label><input id="rruc" placeholder="0912345678001">
+    <label>Instagram <span class="opcional">(opcional)</span></label><input id="rinstagram" placeholder="@tulocal">
+    <label>Dirección <span class="opcional">(opcional)</span></label><input id="rdireccion" placeholder="Calle y número">
+    <label>Contraseña (mínimo 8)</label>
+    <div class="passwrap"><input id="rpass" type="password" placeholder="••••••••"><button class="ojito" id="ojo2" type="button">👁</button></div>
+    <button class="grande" id="btnReg">Crear cuenta</button>
+  </div>
+  <div id="msg"></div>
+  <p class="swap"><a id="linkSwap">¿No tienes cuenta? Crea una</a></p>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/restaurante.js"></script>
+</body>
+</html>

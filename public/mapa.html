@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mapa - CazaPromos 📍</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Nunito',sans-serif;}
+  body{background:#F7F6F2;color:#1F2A2E;padding-bottom:80px;}
+  header{background:#fff;border-radius:0 0 24px 24px;padding:14px 16px;box-shadow:0 4px 14px rgba(0,0,0,.06);position:sticky;top:0;z-index:1000;}
+  .top{display:flex;justify-content:space-between;align-items:center;}
+  h1{font-family:'Baloo 2',sans-serif;font-size:20px;color:#0B7C84;}
+  .btn-geo{background:#0E9BA4;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer;font-size:14px;transition:.2s;}
+  .btn-geo:active{opacity:0.8;}
+  #map{height:calc(100vh - 180px);width:100%;margin-top:16px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:1;}
+  nav{position:fixed;bottom:12px;left:12px;right:12px;background:#fff;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.15);display:flex;justify-content:space-around;padding:8px 4px;z-index:1000;}
+  nav a{flex:1;text-align:center;text-decoration:none;color:#8a9;font-size:11px;font-weight:700;}
+  nav a .i{display:block;font-size:20px;}
+  nav a.on{color:#0E9BA4;}
+  .nota{padding:12px 16px;text-align:center;font-size:13px;color:#6B4F3A;background:#fff;margin-top:12px;border-radius:12px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>📍 Mapa de locales</h1>
+    <button class="btn-geo" id="btnUbicacion" onclick="getUserLocation()">📍 Mi Ubicación</button>
+  </div>
+</header>
+
+<div id="map"></div>
+<div class="nota" id="notaMapa">Mueve el mapa para explorar todos los locales de tu ciudad</div>
+
+<nav>
+  <a href="/promos.html"><span class="i">🏠</span>Inicio</a>
+  <a href="/mapa.html" class="on"><span class="i">📍</span>Mapa</a>
+</nav>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/mapa.js"></script>
+</body>
+</html>

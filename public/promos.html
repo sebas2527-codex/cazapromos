@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CazaPromos 🏹</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Nunito',sans-serif;}
+  html,body{overflow-x:hidden;background:#F7F6F2;color:#1F2A2E;padding-bottom:80px;}
+  header{background:#fff;border-radius:0 0 24px 24px;padding:14px 16px 18px;box-shadow:0 4px 14px rgba(0,0,0,.06);}
+  .top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  #btnCiudad{background:#0E9BA4;color:#fff;border:none;border-radius:999px;padding:10px 16px;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap;}
+  .geo{display:flex;align-items:center;gap:8px;font-size:13px;color:#6B4F3A;font-weight:700;}
+  .switch{position:relative;width:46px;height:26px;}
+  .switch input{opacity:0;width:0;height:0;}
+  .slider{position:absolute;inset:0;background:#ccc;border-radius:999px;cursor:pointer;transition:.2s;}
+  .slider:before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+  .switch input:checked + .slider{background:#0E9BA4;}
+  .switch input:checked + .slider:before{transform:translateX(20px);}
+  .search{background:#F1F0EB;border-radius:999px;padding:12px 18px;color:#6B4F3A;font-size:14px;margin-top:12px;font-weight:600;}
+  .chips{display:flex;gap:10px;overflow-x:auto;padding:14px 16px 6px;overscroll-behavior-x:contain;scrollbar-width:none;}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{flex:0 0 auto;background:#fff;border:1px solid #e5e2da;border-radius:16px;padding:10px 14px;text-align:center;font-size:13px;font-weight:700;color:#445;cursor:pointer;min-height:44px;transition:.2s;}
+  .chip .e{display:block;font-size:22px;margin-bottom:2px;}
+  .chip.on{border-color:#0E9BA4;color:#0E9BA4;background:#E6F7F8;}
+  .seccion{margin:16px 0 6px;} 
+  .seccion h2{font-family:'Baloo 2',sans-serif;font-size:18px;color:#0B7C84;padding:0 16px 8px;font-weight:800;}
+  .filas{display:flex;gap:12px;overflow-x:auto;padding:0 16px 10px;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;}
+  .filas::-webkit-scrollbar{display:none;}
+  .card{flex:0 0 230px;scroll-snap-align:start;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.08);}
+  .cover{position:relative;height:150px;background:#eee;}
+  .cover img{width:100%;height:100%;object-fit:cover;}
+  .nofoto{display:flex;align-items:center;justify-content:center;height:100%;font-size:50px;}
+  .badge{position:absolute;top:8px;right:8px;background:#0E9BA4;color:#fff;font-weight:800;padding:5px 10px;border-radius:12px;font-size:14px;font-family:'Baloo 2',sans-serif;}
+  .estado{position:absolute;bottom:8px;left:8px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;background:rgba(20,30,34,.85);color:#fff;}
+  .cuerpo{padding:12px;display:flex;flex-direction:column;gap:5px;}
+  .cuerpo h3{font-size:16px;color:#1F2A2E;font-weight:800;}
+  .rest{color:#0B7C84;font-size:12px;font-weight:700;}
+  .desc{color:#789;font-size:12px;}
+  .prices{font-size:17px;font-weight:800;}
+  .old{text-decoration:line-through;color:#a9b;margin-right:6px;font-size:13px;}
+  .new{color:#22A06B;}
+  .wa{display:block;background:linear-gradient(90deg,#25D366,#128C7E);color:#fff;text-align:center;text-decoration:none;padding:12px;border-radius:999px;font-weight:800;font-size:15px;min-height:44px;}
+  .wa.off{background:#d8d6cf;color:#8a8;pointer-events:none;}
+  .vacio{text-align:center;color:#6B4F3A;padding:30px 20px;font-size:14px;}
+  nav{position:fixed;bottom:12px;left:12px;right:12px;background:#fff;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.15);display:flex;justify-content:space-around;padding:8px 4px;}
+  nav a{flex:1;text-align:center;text-decoration:none;color:#8a9;font-size:11px;font-weight:700;}
+  nav a .i{display:block;font-size:20px;} nav a.on{color:#0E9BA4;}
+  
+  #modalCiudad{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+  #modalCiudad .caja{background:#fff;border-radius:16px;padding:20px;max-width:340px;width:100%;}
+  #modalCiudad label{display:block;text-align:left;font-size:11px;color:#6B4F3A;margin-top:10px;font-weight:700;}
+  #modalCiudad select, #modalCiudad input{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-top:4px;font-size:15px;font-family:'Nunito',sans-serif;}
+  #modalCiudad .op{padding:10px;border-radius:10px;cursor:pointer;font-weight:700;color:#0B7C84;margin-top:4px;text-align:center;}
+  #modalCiudad .op.on{background:#E6F7F8;}
+  #modalCiudad .op:hover{background:#E6F7F8;}
+  #listaCiudades{max-height:150px;overflow-y:auto;margin-top:8px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <button id="btnCiudad">EC</button>
+    <label class="geo">📍 Cercanas
+      <span class="switch"><input type="checkbox" id="geoToggle"><span class="slider"></span></span>
+    </label>
+  </div>
+  <div class="search">🔍 Busca locales, combos y platos</div>
+</header>
+<p id="gpsNota" style="text-align:center;color:#22A06B;font-size:13px;padding-top:8px;min-height:16px"></p>
+<div class="chips" id="chips"></div>
+<div id="grid"></div>
+
+<div id="modalCiudad"><div class="caja">
+  <b style="color:#0B7C84;letter-spacing:1px;display:block;text-align:center;margin-bottom:12px;"> TU UBICACIÓN</b>
+  <label>PAÍS</label>
+  <select id="selPaisModal"></select>
+  <label>CIUDAD — escribe o elige de la lista</label>
+  <input id="inpCiudad" placeholder="Ej: Guayaquil, Quito, Riobamba...">
+  <div id="listaCiudades"></div>
+  <div class="op" id="opUbi" style="background:#E6F7F8;margin-top:12px;">📍 Usar mi ubicación actual</div>
+  <div class="op" id="opCerrar" style="color:#999">Cerrar</div>
+</div></div>
+
+<nav>
+  <a href="/promos.html" class="on"><span class="i">🏠</span>Inicio</a>
+  <a href="/mapa.html"><span class="i">📍</span>Mapa</a>
+</nav>
+<script src="/script.js"></script>
+</body>
+</html>
